@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Herrajuq Pedidos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@62.5..100,400..900&family=Archivo:wdth,wght@62..125,400..800&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF; --sheet:#FFFFFF; --panel:#EEF4F4; --rule:#CADADA; --rule-strong:#9FBDBD;
+  --ink:#1E2424; --ink-2:#4A5858; --ink-3:#6A7A7A;
+  --teal:#2F5F61; --teal-deep:#244B4D; --on-teal:#EEF6F5; --on-teal-2:#B9D3D2;
+  --glass:#2E7D78; --glass-hover:#256A66; --on-glass:#FFFFFF; --glass-soft:#D5EAE8; --glass-pane:#79B9B4;
+  --alu:#8A9494; --alu-on-teal:#86A9A8; --alu-hi:#2F5F61;
+  --warn:#8A5300; --warn-soft:#F5E6CC; --bad:#A33030; --bad-soft:#F6DCDC;
+  --scrim:rgba(18,30,31,.52);
+  --lift:0 1px 2px rgba(30,52,53,.08),0 12px 32px -8px rgba(30,52,53,.22);
+  --f-disp:"Noto Serif Display","Bodoni 72","Didot",Georgia,serif;
+  --f-ui:"Archivo","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.45;margin:0;padding-inline:0;padding-block:0 104px}
+::selection{background:var(--glass-soft);color:var(--ink)}
+*{scrollbar-color:var(--rule-strong) transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--glass);outline-offset:2px}
+.gut{padding-inline:16px}
+.wrap{max-width:1120px;margin-inline:auto}
+.key{font-stretch:78%;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* encabezado de marca */
+.mast{background:var(--teal);color:var(--on-teal);overflow:hidden}
+.mast-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px 10px}
+.mark{display:flex;align-items:flex-end;gap:2px;min-width:0;color:var(--on-teal);text-decoration:none}
+.mark svg{width:30px;height:40px;flex:none}
+.mark b{font-family:var(--f-disp);font-weight:900;font-stretch:62.5%;font-size:42px;line-height:.8;letter-spacing:.005em;display:inline-flex;align-items:flex-end}
+.mark .q{position:relative;display:inline-block}
+.mark .q i{position:absolute;left:42%;bottom:-.34em;width:.85em;height:.62em;background:var(--alu-on-teal);-webkit-mask:url("data:image/png;base64,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") center/contain no-repeat;mask:url("data:image/png;base64,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") center/contain no-repeat;transform:rotate(8deg)}
+.mast-sub{font-family:var(--f-disp);font-stretch:62.5%;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;color:var(--on-teal);margin-top:8px;padding-block:2px;border-top:1px solid var(--on-teal-2);border-bottom:1px solid var(--on-teal-2);display:inline-block}
+.pill-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--on-teal-2);background:transparent;color:var(--on-teal);border-radius:999px;padding:8px 14px 8px 12px;font-weight:600;font-size:15px;white-space:nowrap}
+.pill-btn:hover{background:var(--teal-deep)}
+@media (max-width:420px){.pill-btn{padding:8px 10px}.pill-btn .lbl{display:none}}
+.pill-btn .n{font-variant-numeric:tabular-nums;background:var(--on-teal);color:var(--teal);border-radius:999px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:13px;padding-inline:6px}
+.band{display:flex;align-items:flex-end;gap:14px;height:46px;padding-bottom:8px;border-top:1px solid rgba(255,255,255,.12);overflow:hidden;mask-image:linear-gradient(90deg,#000 80%,transparent)}
+.band i{display:block;flex:none;width:38px;height:38px;background:var(--alu-on-teal);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+
+/* barra fija de búsqueda */
+.tools{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ground);border-bottom:1px solid var(--rule);padding-block:12px}
+.tools-in{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+@media (max-width:700px){.tools-in{grid-template-columns:1fr}}
+.seg{display:inline-flex;background:var(--panel);border-radius:10px;padding:3px}
+.seg button{border:0;background:transparent;border-radius:8px;padding:8px 14px;font-weight:600;font-size:15px;color:var(--ink-2);white-space:nowrap}
+.seg button[aria-selected="true"]{background:var(--sheet);color:var(--ink);box-shadow:0 1px 2px rgba(30,52,53,.14)}
+@media (max-width:700px){.seg{display:flex}.seg button{flex:1}}
+.search{position:relative}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.search input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.search input{width:100%;border:1px solid var(--rule);background:var(--sheet);border-radius:10px;padding:11px 12px 11px 42px;font-size:16px}
+.search input::placeholder{color:var(--ink-3)}
+.search input:focus{border-color:var(--glass);outline:none;box-shadow:0 0 0 3px var(--glass-soft)}
+
+/* títulos de sección al estilo del logo */
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:24px;padding-bottom:8px;border-bottom:4px double var(--glass)}
+.sec-h h1{font-family:var(--f-disp);font-weight:800;font-stretch:72%;font-size:30px;line-height:1.05;margin:0;letter-spacing:.005em;text-wrap:balance}
+.sec-h p{margin:0;color:var(--ink-2);font-size:14px}
+.note{margin:12px 0 0;font-size:14px;color:var(--ink-2);max-width:70ch}
+
+/* hoja de catálogo */
+.sheetgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));margin-top:16px;border-top:1px solid var(--rule);border-left:1px solid var(--rule);background:var(--sheet)}
+@media (max-width:420px){.sheetgrid{grid-template-columns:1fr 1fr}}
+.cell{display:flex;flex-direction:column;gap:2px;text-align:left;border:0;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:transparent;padding:12px 12px 14px;min-width:0;transition:background-color .16s ease-out}
+.cell:hover{background:var(--panel)}
+.sil{aspect-ratio:1;width:100%;max-width:100%;display:grid;place-items:center;margin-bottom:8px}
+.sil i{display:block;width:82%;height:82%;background:var(--alu);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;transition:background-color .16s ease-out,transform .2s cubic-bezier(.2,.8,.2,1)}
+.cell:hover .sil i{background:var(--alu-hi);transform:scale(1.04)}
+.sil .none{font-size:12px;color:var(--ink-3);text-align:center;padding:12px;border:1px dashed var(--rule-strong);border-radius:6px;width:82%;aspect-ratio:1;display:grid;place-items:center}
+.cell .k{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.cell .k b{font-size:21px;line-height:1.1}
+.cell .k span{font-size:12px;color:var(--ink-3);font-stretch:85%;font-weight:600;white-space:nowrap}
+.cell .nm{font-size:14px;line-height:1.3;color:var(--ink);overflow-wrap:anywhere}
+.fin{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.sw{width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.22);display:inline-block;flex:none}
+
+/* lista de herrajes */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{border:1px solid var(--rule);background:var(--sheet);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:500}
+.chip:hover{border-color:var(--rule-strong)}
+.chip[aria-pressed="true"]{background:var(--glass);border-color:var(--glass);color:var(--on-glass);font-weight:600}
+.rows{margin-top:16px;background:var(--sheet);border-top:1px solid var(--rule)}
+.r{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:10px 4px 10px 0;border-bottom:1px solid var(--rule)}
+.r .t{min-width:0}
+.ph{display:grid;place-items:center;background:#FFFFFF;border-radius:8px;overflow:hidden}
+.ph img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.r .ph{width:64px;height:64px;margin-left:8px}
+.r .ph.none{background:var(--panel)}
+.photo{aspect-ratio:4/3;border:1px solid var(--rule);padding:12px}
+.r .t div{overflow-wrap:anywhere}
+.r .t small{display:block;color:var(--ink-3);font-size:13px}
+.more{display:block;margin:16px auto 0}
+.empty{padding:40px 16px;text-align:center;color:var(--ink-2);max-width:46ch;margin-inline:auto}
+
+/* controles */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:12px 18px;font-weight:650;font-size:16px;background:var(--glass);color:var(--on-glass);text-decoration:none;transition:background-color .15s ease-out}
+.btn:hover{background:var(--glass-hover)}
+.btn.sec{background:var(--sheet);color:var(--ink);box-shadow:inset 0 0 0 1px var(--rule-strong)}
+.btn.sec:hover{background:var(--panel)}
+.btn.sm{padding:8px 13px;font-size:15px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.wide{width:100%}
+.link{background:none;border:0;color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;padding:6px 4px;font-size:15px}
+.link:hover{color:var(--ink)}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--rule-strong);border-radius:10px;background:var(--sheet);overflow:hidden}
+.stepper button{border:0;background:transparent;width:42px;height:42px;display:grid;place-items:center;color:var(--ink)}
+.stepper button:hover{background:var(--panel)}
+.stepper input{width:64px;border:0;border-inline:1px solid var(--rule);text-align:center;height:42px;background:transparent;font-variant-numeric:tabular-nums;font-weight:600}
+
+/* hoja inferior */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--ground);width:100%;max-width:620px;max-height:92%;overflow:auto;border-radius:16px 16px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px;box-shadow:var(--lift)}
+@media (min-width:760px){.scrim{align-items:center}.sheet{border-radius:14px;max-height:90%}}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:rise .24s cubic-bezier(.2,.8,.2,1)}@keyframes rise{from{transform:translateY(24px)}to{transform:none}}}
+.sheet>*{flex-shrink:0}
+.sh{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.sh h2{font-family:var(--f-disp);font-weight:800;font-stretch:72%;font-size:28px;line-height:1.05;margin:0;text-wrap:balance}
+.sh .sub{color:var(--ink-2);font-size:14px;margin-top:4px}
+.x{border:1px solid var(--rule);background:var(--sheet);border-radius:10px;width:42px;height:42px;display:grid;place-items:center;flex:none;color:var(--ink)}
+.x:hover{background:var(--panel)}
+.plate{background:#FFFFFF;border:1px solid var(--rule);border-radius:10px;aspect-ratio:7/5;display:grid;place-items:center;overflow:hidden}
+.plate img{width:100%;height:100%;object-fit:contain}
+.cap{font-size:13px;color:var(--ink-3);margin-top:-10px}
+.grp{display:flex;flex-direction:column;gap:8px}
+.grp>.lb{font-weight:650;font-size:15px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule-strong);background:var(--sheet);border-radius:10px;padding:9px 13px;font-size:15px}
+.opt:hover{background:var(--panel)}
+.opt[aria-checked="true"]{border-color:var(--glass);background:var(--glass-soft);box-shadow:inset 0 0 0 1px var(--glass);font-weight:650}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-weight:650;font-size:15px}
+.field input,.field select,.field textarea{border:1px solid var(--rule-strong);background:var(--sheet);border-radius:10px;padding:11px 12px;width:100%;min-width:0;font-size:16px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--glass);outline:none;box-shadow:0 0 0 3px var(--glass-soft)}
+.field textarea{min-height:72px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.two{grid-template-columns:1fr}}
+.items{background:var(--sheet);border-top:1px solid var(--rule)}
+.it{display:grid;grid-template-columns:48px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:start}
+.it .mini{width:48px;height:48px;display:grid;place-items:center;background:var(--panel);border-radius:8px}
+.it .mini i{width:36px;height:36px;display:block;background:var(--alu);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.it .t{min-width:0}
+.it .t b{display:block;font-weight:650;overflow-wrap:anywhere}
+.it .t small{display:block;color:var(--ink-2);font-size:14px}
+.it .t .key{font-size:14px;color:var(--ink-3)}
+.it .ctl{display:flex;gap:12px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.panel{display:flex;flex-direction:column;gap:14px;padding-top:4px}
+.panel h3{font-family:var(--f-disp);font-weight:800;font-stretch:72%;font-size:22px;margin:0;padding-bottom:6px;border-bottom:4px double var(--glass)}
+.err{color:var(--bad);font-size:15px;font-weight:600;min-height:1.2em}
+pre.msg{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:12px;font-family:var(--f-ui);font-stretch:90%;font-size:14px;line-height:1.5;margin:0;max-height:260px;overflow:auto}
+.folio{font-family:var(--f-disp);font-weight:800;font-stretch:72%;font-size:44px;line-height:1;letter-spacing:.02em}
+.warnbox{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:12px 14px;font-weight:600;font-size:15px}
+
+/* barra inferior */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--sheet);border-top:1px solid var(--rule);padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px))}
+.bar .wrap{padding-inline:16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.bar .sum{font-size:14px;color:var(--ink-2);line-height:1.25}
+.bar .sum b{display:block;color:var(--ink);font-size:16px}
+.ficha{display:flex;flex-direction:column;gap:8px;padding:14px 0 4px;border-top:4px double var(--glass)}
+.ficha h3{font-family:var(--f-disp);font-weight:800;font-stretch:72%;font-size:21px;margin:0}
+.ficha p{margin:0;font-size:15px;line-height:1.5;color:var(--ink);max-width:62ch}
+.ficha .ft{font-weight:650}
+.ficha dl{display:grid;grid-template-columns:minmax(96px,auto) 1fr;margin:4px 0 0;border-top:1px solid var(--rule)}
+.ficha dt,.ficha dd{margin:0;padding:7px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.ficha dt{color:var(--ink-2);font-weight:650;padding-right:12px}
+.toast[hidden]{display:none}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:var(--ink);color:var(--ground);padding:10px 16px;border-radius:10px;z-index:60;font-size:15px;font-weight:600;max-width:90%;display:flex;gap:8px;align-items:center}
+
+.mast-btns{display:flex;gap:8px;align-items:center}
+@media (max-width:420px){.mast-btns .lbl{display:none}}
+.gate{min-height:100vh;background:var(--ground)}
+.gate[hidden]{display:none}
+.gate-top{background:var(--teal);color:var(--on-teal);padding:22px 16px 18px}
+.gate-top .wrap{max-width:520px}
+.gate-body{max-width:520px;margin:0 auto;padding:22px 16px 48px;display:flex;flex-direction:column;gap:16px}
+.gate-body h1{font-family:var(--f-disp);font-weight:800;font-stretch:72%;font-size:30px;line-height:1.05;margin:0;padding-bottom:8px;border-bottom:4px double var(--glass)}
+.gate-body p{margin:0;color:var(--ink-2);font-size:15px;max-width:60ch}
+.gate-body .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.gps{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--ink-2)}
+.gps a{color:var(--glass)}
+.ok{display:inline-flex;gap:6px;align-items:center;color:var(--glass);font-weight:650}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-2)}
+.check input{width:18px;height:18px;margin-top:2px;accent-color:var(--glass)}
+.spin{width:28px;height:28px;border-radius:50%;border:3px solid var(--glass-soft);border-top-color:var(--glass);animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.orders{border-top:1px solid var(--rule)}
+.ord{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.ord b{font-family:var(--f-disp);font-weight:800;font-stretch:72%;font-size:18px}
+.ord small{color:var(--ink-2)}
+.tag{display:inline-block;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:650;background:var(--panel);color:var(--ink-2)}
+.tag.nuevo{background:var(--warn-soft);color:var(--warn)}
+.tag.atendido{background:var(--glass-soft);color:var(--glass)}
+.btn.danger{background:var(--bad);color:#fff}
+.lb2{font-weight:650;font-size:15px}
+.mapbox{display:flex;flex-direction:column;gap:8px}
+.maprow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mapq{flex:1;min-width:0;border:1px solid var(--rule-strong);background:var(--sheet);border-radius:10px;padding:10px 12px;font-size:16px}
+.maparea{height:300px;border:1px solid var(--rule-strong);border-radius:10px;overflow:hidden;background:var(--panel);z-index:0}
+.mapres{display:flex;flex-direction:column;gap:4px;font-size:14px}
+.mapopt{text-align:left;border:1px solid var(--rule);background:var(--sheet);border-radius:8px;padding:8px 10px;font-size:14px}
+.mapopt:hover{background:var(--panel)}
+.pin{background:none;border:0}
+</style>
+</head>
+<body>
+<div id="gate" class="gate"></div>
+<div id="app" hidden>
+
+
+<header class="mast">
+  <div class="wrap gut">
+    <div class="mast-row">
+      <div>
+        <div class="mark" aria-label="Herrajuq">
+          <svg viewBox="0 0 30 40" aria-hidden="true"><rect x="2" y="1" width="9" height="38" rx="1" fill="var(--glass-pane)" opacity=".95"/><rect x="18" y="1" width="9" height="38" rx="1" fill="var(--glass-pane)" opacity=".95"/><rect x="2" y="1" width="2" height="38" fill="#fff" opacity=".28"/><rect x="18" y="1" width="2" height="38" fill="#fff" opacity=".28"/><rect x="0" y="22" width="30" height="5" rx="1" fill="var(--alu-on-teal)"/></svg>
+          <b>ERRAJU<span class="q">Q<i aria-hidden="true"></i></span></b>
+        </div>
+        <div class="mast-sub">Herrajes y Aluminio Juquila</div>
+      </div>
+      <div class="mast-btns"><button class="pill-btn" id="openCuenta" type="button" aria-label="Mi cuenta"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg><span class="lbl">Mi cuenta</span></button><button class="pill-btn" id="openCart" type="button" aria-label="Abrir mi pedido"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.1a1 1 0 0 1-1 .9H7.2a1 1 0 0 1-1-.9z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="lbl">Mi pedido</span> <span class="n" id="cartN">0</span></button></div>
+    </div>
+    <div class="band" id="band" aria-hidden="true"></div>
+  </div>
+</header>
+
+<div class="tools">
+  <div class="wrap gut tools-in">
+    <div class="seg" role="tablist" aria-label="Catálogo">
+      <button role="tab" id="tabP" aria-selected="true" type="button">Perfiles de aluminio</button>
+      <button role="tab" id="tabO" aria-selected="false" type="button">Herrajes y más</button>
+    </div>
+    <div class="search"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg><input id="q" type="search" placeholder="Busca por clave o nombre" autocomplete="off" aria-label="Buscar en el catálogo"></div>
+  </div>
+</div>
+
+<main class="wrap gut" id="main"></main>
+
+<div class="bar"><div class="wrap">
+  <div class="sum" id="sum"><b>Tu pedido está vacío</b>Elige perfiles o herrajes</div>
+  <button class="btn" id="barSend" type="button">Revisar y enviar</button>
+</div></div>
+
+
+
+
+
+</div>
+<div id="layer"></div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+window.HJ_START=function(DATA,HLP,DET,USER,API){
+
+  var WHATSAPP=(API.whatsapp||'525548009223');
+  var LOCALIDADES=['Amecameca','Juchitepec','Ozumba','Atlautla','Morelos','Chalco','Ayapango','Otra (la escribo en referencias)'];
+  var COLOR_ORDER=['Blanco','Bronce','Champagne','Champagne brillante','Cerezo','Nogal','Electro','Oro','Natural','Natural brillante','Duro','Duro E','Sin acabado','Negro'];
+  var SWATCH={'Blanco':'#F4F4F1','Bronce':'#7B5B3C','Champagne':'#D9C9A3','Champagne brillante':'#E6D8B3','Cerezo':'#7A3B2B','Nogal':'#5B3F2C','Oro':'#C9A227','Natural':'#B9BEC3','Natural brillante':'#D6DADE','Negro':'#1B1B1B','Electro':'#3E4A52'};
+  var P=DATA.perfiles, O=DATA.otros;
+  var state={tab:'p',q:'',brand:'',limit:60,cart:[],cust:{nombre:USER.nombre||'',tel:USER.tel||'',entrega:'domicilio',loc:USER.loc||'',calle:[USER.calle,USER.colonia].filter(Boolean).join(', '),ref:USER.ref||'',gps:USER.gps||null,nota:''}};
+  var ICONS={x:'<path d="M6 6l12 12M18 6 6 18"/>',plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',file:'<path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4M9 12h6M9 16h4"/>',copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/>',send:'<path d="M20 4 9.5 14.5"/><path d="M20 4l-6.5 16-4-5.5L4 10.5z"/>'};
+  function ico(n){var s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');s.setAttribute('class','i');s.setAttribute('aria-hidden','true');s.innerHTML=ICONS[n];return s}
+
+  function $(id){return document.getElementById(id)}
+  function el(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){var v=attrs[k];if(v==null)continue;if(k==='text')e.textContent=v;else if(k==='class')e.className=v;else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);else if(k==='style'&&typeof v==='object'){for(var s in v)e.style.setProperty(s,v[s])}else e.setAttribute(k,v);}(kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==='string'?document.createTextNode(c):c)});return e}
+  function norm(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+  function save(){try{localStorage.setItem('hj_cart_'+USER.uid,JSON.stringify({cart:state.cart}))}catch(e){}}
+  function load(){try{var d=JSON.parse(localStorage.getItem('hj_cart_'+USER.uid)||'null');if(d){state.cart=d.cart||[]}}catch(e){}}
+  function toast(t){var n=$('toast');n.textContent='';n.appendChild(ico('check'));n.appendChild(document.createTextNode(t));n.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){n.hidden=true},2200)}
+  function sil(uri,cls){var i=el('i');i.style.setProperty('--m','url("'+uri+'")');return cls?el('span',{class:cls},[i]):i}
+  var SILS={};P.forEach(function(p){if(p.s)SILS[p.b]=p.s});
+  function updBar(){
+    var n=state.cart.length;$('cartN').textContent=n;$('barSend').disabled=!n;
+    var s=$('sum');s.textContent='';
+    if(!n){s.appendChild(el('b',{text:'Tu pedido está vacío'}));s.appendChild(document.createTextNode('Elige perfiles o herrajes'))}
+    else{s.appendChild(el('b',{text:n+(n===1?' producto':' productos')}));s.appendChild(document.createTextNode('Sin precios, la tienda te los confirma'))}
+  }
+
+  // banda de perfiles, como en el logo
+  (function(){var b=$('band'),pick=['1681','2215','12097','6523','1689','3455','5369','9010','12050','10125','11758','13076','2047','9060','12069','12011'];var n=0;
+    pick.concat(Object.keys(SILS)).forEach(function(k){if(n<26&&SILS[k]&&!b.querySelector('[data-k="'+k+'"]')){var i=sil(SILS[k]);i.setAttribute('data-k',k);b.appendChild(i);n++}})})();
+
+  P.forEach(function(p){p._s=norm(p.n+' '+p.b+' '+p.l)});
+  O.forEach(function(o){o._s=norm(o[1]+' '+o[0]+' '+o[3])});
+  var BRANDS=['Herralum','Makita','Dexter','Pydsa','Bruken','Glanze','Tecno'];
+  function colorsOf(p){return Object.keys(p.c).map(function(k){return p.c[k]}).sort(function(a,b){return COLOR_ORDER.indexOf(a.n)-COLOR_ORDER.indexOf(b.n)})}
+  function sw(name){var s=SWATCH[name];var d=el('span',{class:'sw','aria-hidden':'true',title:name});d.style.background=s||'repeating-linear-gradient(45deg,#9AA3A3 0 2px,#DCE2E2 2px 5px)';return d}
+
+  function render(){
+    updBar();
+    var m=$('main');m.textContent='';
+    $('tabP').setAttribute('aria-selected',state.tab==='p');$('tabO').setAttribute('aria-selected',state.tab==='o');
+    var qs=norm(state.q).split(/\s+/).filter(Boolean);
+    function hit(s){return qs.every(function(w){return s.indexOf(w)>-1})}
+    if(state.tab==='p'){
+      var list=P.filter(function(p){return hit(p._s)});
+      m.appendChild(el('div',{class:'sec-h'},[el('h1',{text:'Perfiles de aluminio'}),el('p',{text:list.length+(list.length===1?' perfil':' perfiles')})]));
+      m.appendChild(el('p',{class:'note',text:'Toca el perfil por su forma para elegir color, largo y piezas. Tu pedido no lleva precios: la tienda te confirma precio, existencia y hora de entrega por WhatsApp.'}));
+      if(!list.length){m.appendChild(el('div',{class:'empty',text:'No hay un perfil con "'+state.q+'". Prueba con la clave del catálogo, por ejemplo 1681, o con una palabra como cerco o riel.'}));return}
+      var g=el('div',{class:'sheetgrid'});
+      list.forEach(function(p){
+        var s=p.s?sil(p.s,'sil'):el('span',{class:'sil'},[el('span',{class:'none',text:'Sin dibujo en el catálogo'})]);
+        var fin=el('span',{class:'fin'});colorsOf(p).forEach(function(c){fin.appendChild(sw(c.n))});
+        g.appendChild(el('button',{class:'cell',type:'button','aria-label':p.n+', clave '+p.b,onclick:function(){openPerfil(p)}},[s,
+          el('span',{class:'k'},[el('b',{class:'key',text:p.b}),el('span',{text:p.l||''})]),
+          el('span',{class:'nm',text:p.n}),fin]));
+      });
+      m.appendChild(g);
+    }else{
+      var res=O.filter(function(o){return (!state.brand||o[3]===state.brand)&&hit(o._s)});
+      m.appendChild(el('div',{class:'sec-h'},[el('h1',{text:'Herrajes y más'}),el('p',{text:res.length.toLocaleString('es-MX')+' productos'+(state.brand?' de '+state.brand:'')})]));
+      var chips=el('div',{class:'chips',role:'group','aria-label':'Filtrar por marca'});
+      chips.appendChild(el('button',{class:'chip',type:'button','aria-pressed':String(!state.brand),text:'Todas las marcas',onclick:function(){state.brand='';state.limit=60;render()}}));
+      BRANDS.forEach(function(b){chips.appendChild(el('button',{class:'chip',type:'button','aria-pressed':String(state.brand===b),text:b,onclick:function(){state.brand=state.brand===b?'':b;state.limit=60;render()}}))});
+      m.appendChild(chips);
+      if(!res.length){m.appendChild(el('div',{class:'empty',text:'No hay productos con esa búsqueda'+(state.brand?' en '+state.brand:'')+'. Quita el filtro de marca o prueba con la clave.'}));return}
+      var lst=el('div',{class:'rows'});
+      res.slice(0,state.limit).forEach(function(o){
+        var ph=o[4]&&HLP[o[4]]?el('span',{class:'ph'},[el('img',{src:HLP[o[4]],alt:'',loading:'lazy'})]):el('span',{class:'ph none','aria-hidden':'true'});
+        lst.appendChild(el('div',{class:'r'},[ph,el('div',{class:'t'},[el('div',{text:o[1]}),el('small',null,[el('span',{class:'key',text:o[0]}),' · '+o[2]+(o[3]?' · '+o[3]:'')])]),el('button',{class:'btn sm sec',type:'button','aria-label':'Agregar '+o[1],onclick:function(){openOtro(o)}},[ico('plus'),'Agregar'])]));
+      });
+      m.appendChild(lst);
+      if(res.length>state.limit)m.appendChild(el('button',{class:'btn sec more',type:'button',text:'Ver '+Math.min(60,res.length-state.limit)+' más de '+(res.length-state.limit).toLocaleString('es-MX'),onclick:function(){state.limit+=60;render()}}));
+    }
+  }
+
+  var lastFocus=null;
+  function closeLayer(){$('layer').textContent='';document.body.style.overflow='';if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true})}catch(e){}}
+  function openLayer(content){
+    lastFocus=document.activeElement;
+    var sc=el('div',{class:'scrim',onclick:function(e){if(e.target===sc)closeLayer()}},[content]);
+    $('layer').textContent='';$('layer').appendChild(sc);document.body.style.overflow='hidden';
+    var f=sc.querySelector('button,input');if(f&&f.focus)try{f.focus({preventScroll:true})}catch(e){}
+  }
+  function head(title,sub){return el('div',{class:'sh'},[el('div',null,[el('h2',{text:title}),sub?el('div',{class:'sub',text:sub}):null]),el('button',{class:'x',type:'button','aria-label':'Cerrar',onclick:closeLayer},[ico('x')])])}
+  function stepper(get,set,min,step,label){
+    var inp=el('input',{type:'number',inputmode:'decimal',min:String(min),step:String(step||1),value:String(get()),'aria-label':label||'Cantidad'});
+    inp.addEventListener('change',function(){var v=parseFloat(inp.value);if(!(v>=min))v=min;set(v);inp.value=v});
+    var minus=el('button',{type:'button','aria-label':'Quitar uno',onclick:function(){var v=Math.max(min,Math.round((get()-(step||1))*100)/100);set(v);inp.value=v}},[ico('minus')]);
+    var plus=el('button',{type:'button','aria-label':'Agregar uno',onclick:function(){var v=Math.round((get()+(step||1))*100)/100;set(v);inp.value=v}},[ico('plus')]);
+    return el('div',{class:'stepper'},[minus,inp,plus]);
+  }
+  function radios(label,items,isOn,onPick,render1){
+    var g=el('div',{class:'opts',role:'radiogroup','aria-label':label});
+    items.forEach(function(it){g.appendChild(el('button',{class:'opt',type:'button',role:'radio','aria-checked':String(isOn(it)),onclick:function(){onPick(it)}},render1(it)))});
+    return el('div',{class:'grp'},[el('div',{class:'lb',text:label}),g]);
+  }
+
+  function openPerfil(p){
+    var cols=colorsOf(p);var s={c:cols[0],o:cols[0].o[0],q:1,nota:''};
+    var box=el('div',{class:'sheet',role:'dialog','aria-modal':'true','aria-label':p.n});
+    function draw(){
+      box.textContent='';
+      box.appendChild(head(p.n,'Clave '+p.b+(p.l?', línea '+p.l:'')));
+      var plate=el('div',{class:'plate'});
+      if(p.i&&HLP[p.i])plate.appendChild(el('img',{src:HLP[p.i],alt:'Dibujo con medidas del perfil '+p.b}));else if(p.s)plate.appendChild(sil(p.s,'sil'));else plate.appendChild(el('span',{class:'cap',text:'Sin dibujo en el catálogo'}));
+      box.appendChild(plate);
+      if(p.i)box.appendChild(el('div',{class:'cap',text:'Dibujo del catálogo Indalum, medidas en pulgadas y milímetros.'}));
+      box.appendChild(radios('Color',cols,function(c){return c===s.c},function(c){s.c=c;s.o=c.o[0];draw()},function(c){return [sw(c.n),c.n]}));
+      box.appendChild(radios('Largo',s.c.o,function(o){return o===s.o},function(o){s.o=o;draw()},function(o){return [o[1]]}));
+      var porMetro=s.o[0]==='1MT';
+      box.appendChild(el('div',{class:'grp'},[el('div',{class:'lb',text:porMetro?'Metros':'Piezas'}),stepper(function(){return s.q},function(v){s.q=v},porMetro?0.5:1,porMetro?0.5:1,porMetro?'Metros':'Piezas')]));
+      var ni=el('input',{id:'pnota',type:'text',placeholder:porMetro?'Ej. 3 cortes de 1.20 m':'Ej. para ventana de 1.50 m',value:s.nota});ni.addEventListener('input',function(e){s.nota=e.target.value});
+      box.appendChild(el('div',{class:'field'},[el('label',{for:'pnota',text:'Nota para la tienda (opcional)'}),ni]));
+      box.appendChild(el('button',{class:'btn wide',type:'button',onclick:function(){
+        addItem({clave:s.o[2],name:p.n,detail:s.c.n+' · '+s.o[1],qty:s.q,unit:porMetro?'m':'pzas',note:s.nota,b:p.b});closeLayer();toast('Agregado: '+p.n)}},[ico('plus'),'Agregar al pedido']));
+    }
+    draw();openLayer(box);
+  }
+  function openOtro(o){
+    var s={q:1,nota:''};var unit=o[2]==='Pieza'?'pzas':o[2].toLowerCase();
+    var box=el('div',{class:'sheet',role:'dialog','aria-modal':'true','aria-label':o[1]});
+    box.appendChild(head(o[1],'Clave '+o[0]+(o[3]?', '+o[3]:'')));
+    var SRC={h:'Herralum 2025',x:'Dexter 2026',b:'Línea Cristal Brüken 2025-2026'},CATN={hl:'Herralum 2025',dx:'Dexter 2026',bk:'Línea Cristal Brüken 2025-2026'};
+    if(o[4]&&HLP[o[4]]){box.appendChild(el('div',{class:'ph photo'},[el('img',{src:HLP[o[4]],alt:'Foto de '+o[1]})]));box.appendChild(el('div',{class:'cap',text:'Foto ilustrativa del catálogo '+(SRC[o[4][0]]||'')+'. El acabado es el que dice la clave.'}))}
+    var dt=o[5]&&DET[o[5]];
+    if(dt&&(dt.d||dt.t||(dt.a&&dt.a.length))){
+      var dl=el('dl');(dt.a||[]).forEach(function(a){dl.appendChild(el('dt',{text:a[0]}));dl.appendChild(el('dd',{text:a[1]}))});
+      box.appendChild(el('section',{class:'ficha'},[el('h3',{text:'Ficha del catálogo'}),dt.t?el('p',{class:'ft',text:dt.t}):null,dt.d?el('p',{text:dt.d}):null,(dt.a&&dt.a.length)?dl:null,el('div',{class:'cap',style:'margin-top:0',text:'Catálogo '+(CATN[dt.src]||'')+(dt.p?', página '+dt.p:'')+'. Confirma medidas con la tienda.'})]));
+    }
+    box.appendChild(el('div',{class:'grp'},[el('div',{class:'lb',text:'Cantidad ('+unit+')'}),stepper(function(){return s.q},function(v){s.q=v},1,1)]));
+    var ni=el('input',{id:'onota',type:'text',placeholder:'Ej. color, medida o modelo'});ni.addEventListener('input',function(e){s.nota=e.target.value});
+    box.appendChild(el('div',{class:'field'},[el('label',{for:'onota',text:'Nota para la tienda (opcional)'}),ni]));
+    box.appendChild(el('button',{class:'btn wide',type:'button',onclick:function(){addItem({clave:o[0],name:o[1],detail:o[2],qty:s.q,unit:unit,note:s.nota,ph:o[4]||''});closeLayer();toast('Agregado: '+o[1])}},[ico('plus'),'Agregar al pedido']));
+    openLayer(box);
+  }
+  function addItem(it){
+    var f=state.cart.filter(function(x){return x.clave===it.clave&&x.note===it.note})[0];
+    if(f)f.qty=Math.round((f.qty+it.qty)*100)/100;else state.cart.push(it);
+    save();updBar();
+  }
+
+  function mkFolio(){var a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',d=new Date(),p=function(n){return String(n).padStart(2,'0')},r='';
+    for(var i=0;i<4;i++)r+=a[Math.floor(Math.random()*a.length)];
+    return 'HJ-'+String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+'-'+r}
+  function entregaTxt(c){
+    if(c.entrega==='ahora')return 'Recojo en tienda ahora';
+    if(c.entrega==='despues')return 'Recojo en tienda más tarde';
+    return 'A domicilio: '+(c.loc||'')+(c.calle?', '+c.calle:'')+(c.ref?' (Ref.: '+c.ref+')':'');
+  }
+  function buildMsg(folio){
+    var c=state.cust,L=[];
+    L.push('*Pedido '+folio+'*');L.push('Cliente: '+c.nombre);if(c.tel)L.push('Teléfono: '+c.tel);L.push('Entrega: '+entregaTxt(c));if(c.entrega==='domicilio'&&c.gps)L.push('Ubicación: https://maps.google.com/?q='+c.gps.lat+','+c.gps.lng);L.push('');
+    state.cart.forEach(function(it,i){L.push((i+1)+') '+it.qty+' '+it.unit+' · '+it.name+' · '+it.detail+(it.note?' · Nota: '+it.note:'')+'  ['+it.clave+']')});
+    if(c.nota){L.push('');L.push('Comentarios: '+c.nota)}
+    L.push('');L.push('Pedido sin precios. Favor de confirmar precio, existencia y hora de entrega.');
+    return L.join('\n');
+  }
+
+  function openCart(){
+    var box=el('div',{class:'sheet',role:'dialog','aria-modal':'true','aria-label':'Mi pedido'});
+    var err=el('div',{class:'err',role:'alert'});
+    function field(id,label,node){return el('div',{class:'field'},[el('label',{for:id,text:label}),node])}
+    function draw(){
+      box.textContent='';
+      box.appendChild(head('Mi pedido',state.cart.length?state.cart.length+(state.cart.length===1?' producto, sin precios':' productos, sin precios'):null));
+      if(!state.cart.length){box.appendChild(el('div',{class:'empty',text:'Todavía no agregas nada. Cierra esta hoja, toca un perfil por su forma o busca un herraje por su clave.'}));return}
+      var items=el('div',{class:'items'});
+      state.cart.forEach(function(it,idx){
+        var step=it.unit==='m'?0.5:1;
+        var bb=it.b||(String(it.clave).match(/^I-([^-]+)-/)||[])[1];
+        var mini=it.ph&&HLP[it.ph]?el('span',{class:'mini ph'},[el('img',{src:HLP[it.ph],alt:''})]):el('span',{class:'mini'},[bb&&SILS[bb]?sil(SILS[bb]):null]);
+        items.appendChild(el('div',{class:'it'},[mini,el('div',{class:'t'},[el('b',{text:it.name}),el('small',{text:it.detail}),it.note?el('small',{text:'Nota: '+it.note}):null,el('span',{class:'key',text:it.clave}),
+          el('div',{class:'ctl'},[stepper(function(){return it.qty},function(v){it.qty=v;save()},step,step,'Cantidad de '+it.name),el('button',{class:'link',type:'button',text:'Quitar',onclick:function(){state.cart.splice(idx,1);save();updBar();draw()}})])])]));
+      });
+      box.appendChild(items);
+      var c=state.cust;
+      var nombre=el('input',{id:'cn',type:'text',autocomplete:'name',value:c.nombre,placeholder:'Quién recibe el material'});nombre.addEventListener('input',function(e){c.nombre=e.target.value;save()});
+      var tel=el('input',{id:'ct',type:'tel',inputmode:'tel',autocomplete:'tel',value:c.tel,placeholder:'10 dígitos'});tel.addEventListener('input',function(e){c.tel=e.target.value});
+      var sec=el('div',{class:'panel'},[el('h3',{text:'Entrega'}),el('div',{class:'two'},[field('cn','Nombre',nombre),field('ct','Teléfono',tel)])]);
+      sec.appendChild(radios('¿Cómo lo recibes?',[['domicilio','A domicilio'],['ahora','Paso por él ahora'],['despues','Paso más tarde']],function(e){return c.entrega===e[0]},function(e){c.entrega=e[0];save();draw()},function(e){return [e[1]]}));
+      if(c.entrega==='domicilio'){
+        var sel=el('select',{id:'cl'},[el('option',{value:'',text:'Elige tu localidad'})].concat(LOCALIDADES.map(function(l){return el('option',{value:l,text:l})})));sel.value=c.loc;sel.addEventListener('change',function(e){c.loc=e.target.value;save()});
+        var calle=el('input',{id:'cc',type:'text',autocomplete:'street-address',value:c.calle,placeholder:'Calle, número y colonia'});calle.addEventListener('input',function(e){c.calle=e.target.value;save()});
+        var ref=el('input',{id:'cr',type:'text',value:c.ref,placeholder:'Ej. portón negro, junto a la tienda'});ref.addEventListener('input',function(e){c.ref=e.target.value;save()});
+        sec.appendChild(el('div',{class:'two'},[field('cl','Localidad',sel),field('cc','Calle y número',calle)]));
+        sec.appendChild(field('cr','Referencias',ref));
+        sec.appendChild(el('div',{class:'cap',style:'margin-top:-6px',text:c.gps?'Con la ubicación guardada en tu cuenta.':'Tip: guarda tu ubicación en Mi cuenta para que el chofer llegue directo.'}));
+      }
+      var nota=el('textarea',{id:'cm',placeholder:'Algo más que debamos saber'});nota.value=c.nota;nota.addEventListener('input',function(e){c.nota=e.target.value;save()});
+      sec.appendChild(field('cm','Comentarios (opcional)',nota));
+      box.appendChild(sec);
+      box.appendChild(err);
+      box.appendChild(el('button',{class:'btn wide',type:'button',onclick:send},[ico('send'),'Enviar pedido a la tienda']));
+      box.appendChild(el('button',{class:'btn sec wide',type:'button',onclick:function(){if(!state.cart.length)return;pdfPedido(mkFolio(),'Cotización')}},[ico('file'),'Solo descargar cotización (PDF)']));
+      box.appendChild(el('div',{class:'cap',style:'margin-top:-8px',text:'La cotización lleva claves, descripción y cantidades, sin precios. No se envía a la tienda.'}));
+      box.appendChild(el('button',{class:'link',type:'button',text:'Vaciar pedido',onclick:function(){state.cart=[];save();updBar();draw()}}));
+    }
+    function send(){
+      var c=state.cust;err.textContent='';
+      if(!c.nombre.trim()){err.textContent='Falta el nombre de quien recibe.';box.querySelector('#cn').focus();return}
+      if(!String(c.tel||'').replace(/\D/g,'').match(/^\d{10}$/)){err.textContent='Escribe un teléfono de 10 dígitos para avisarte de la entrega.';return}
+      if(c.entrega==='domicilio'&&(!c.loc||!c.calle.trim())){err.textContent='Para llevarlo a domicilio elige la localidad y escribe calle y número.';return}
+      var folio=mkFolio(),msg=buildMsg(folio),btn=this;
+      if(btn)btn.disabled=true;err.textContent='Enviando…';
+      API.saveOrder({folio:folio,cliente:{nombre:c.nombre,tel:c.tel||''},entrega:{tipo:c.entrega,loc:c.loc||'',calle:c.calle||'',ref:c.ref||'',gps:c.entrega==='domicilio'?(c.gps||null):null},nota:c.nota||'',items:state.cart.map(function(it){return {clave:it.clave,nombre:it.name,detalle:it.detail,cantidad:it.qty,unidad:it.unit,nota:it.note||''}}),mensaje:msg})
+        .then(function(){err.textContent='';doneView(folio,msg)},function(e){if(btn)btn.disabled=false;err.textContent='No se pudo enviar ('+((e&&e.code)||'sin conexión')+'). Revisa tu internet e inténtalo otra vez.'});
+    }
+    draw();openLayer(box);
+  }
+  function pdfPedido(folio,kind){kind=kind||'Pedido';
+    var J=window.jspdf&&window.jspdf.jsPDF;if(!J){toast('No se pudo preparar el PDF. Usa Copiar mensaje.');return}
+    var d=new J({unit:'pt',format:'letter'}),W=612,H=792,M=40,y=0,c=state.cust,pg=1;
+    function wm(){d.saveGraphicsState();d.setGState(new d.GState({opacity:0.07}));d.setTextColor(47,95,97);d.setFont('helvetica','bold');d.setFontSize(64);d.text('HERRAJUQ',W/2,H/2,{align:'center',angle:35});d.restoreGraphicsState()}
+    function header(){wm();d.setFillColor(47,95,97);d.rect(0,0,W,46,'F');d.setTextColor(255,255,255);d.setFont('helvetica','bold');d.setFontSize(16);d.text('HERRAJUQ',M,29);d.setFont('helvetica','normal');d.setFontSize(9);d.text('Herrajes y Aluminio Juquila, Amecameca',M+92,29);d.text(kind+' sin precios',W-M,29,{align:'right'});
+      d.setTextColor(30,36,36);d.setFontSize(8);d.text('Página '+pg,W-M,H-24,{align:'right'});d.text('Precio, existencia y entrega se confirman por WhatsApp al 55 4800 9223.',M,H-24);y=72}
+    header();
+    d.setFont('helvetica','bold');d.setFontSize(20);d.text(kind+' '+folio,M,y);y+=20;
+    d.setFont('helvetica','normal');d.setFontSize(10);
+    var f=new Date(),fecha=f.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+    [['Cliente',c.nombre],['Teléfono',c.tel||''],['Entrega',entregaTxt(c)],['Fecha',fecha]].forEach(function(r){var t=d.splitTextToSize(r[1]||'',W-2*M-70);d.setFont('helvetica','bold');d.text(r[0],M,y);d.setFont('helvetica','normal');d.text(t,M+70,y);y+=13*t.length+2});
+    y+=8;
+    function th(){d.setFont('helvetica','bold');d.setFontSize(9);d.setDrawColor(46,125,120);d.text('#',M,y);d.text('Clave',M+18,y);d.text('Descripción',M+130,y);d.text('Cantidad',W-M,y,{align:'right'});y+=5;d.setLineWidth(1);d.line(M,y,W-M,y);y+=12;d.setFont('helvetica','normal')}
+    th();
+    state.cart.forEach(function(it,i){
+      var desc=d.splitTextToSize(it.name+' · '+it.detail+(it.note?' · Nota: '+it.note:''),W-2*M-130-70),h=11*desc.length+6;
+      if(y+h>H-50){d.addPage();pg++;header();th()}
+      d.setFontSize(9);d.text(String(i+1),M,y);d.setFont('helvetica','bold');d.text(String(it.clave),M+18,y);d.setFont('helvetica','normal');d.text(desc,M+130,y);d.text(it.qty+' '+it.unit,W-M,y,{align:'right'});
+      y+=h-6;d.setDrawColor(211,224,224);d.setLineWidth(0.5);d.line(M,y,W-M,y);y+=12});
+    if(c.nota){var t=d.splitTextToSize('Comentarios: '+c.nota,W-2*M);if(y+12*t.length>H-50){d.addPage();pg++;header()}d.text(t,M,y+4)}
+    var name=kind+'_'+folio+'.pdf',blob=d.output('blob');
+    function plain(){var u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove()},1500);toast('PDF listo: '+name)}
+    plain();
+  }
+  function doneView(folio,msg){
+    var url='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
+    var box=el('div',{class:'sheet',role:'dialog','aria-modal':'true','aria-label':'Pedido listo para enviar'});
+    box.appendChild(el('div',{class:'sh'},[el('div',null,[el('div',{class:'sub',text:'Folio de tu pedido'}),el('div',{class:'folio',text:folio})]),el('button',{class:'x',type:'button','aria-label':'Cerrar',onclick:closeLayer},[ico('x')])]));
+    box.appendChild(el('div',{class:'warnbox',style:'background:var(--glass-soft);color:var(--glass)',text:'Tu pedido ya llegó a la tienda. Te confirmamos precio, existencia y hora de entrega por WhatsApp o llamada.'}));
+    box.appendChild(el('a',{class:'btn wide',href:url,target:'_blank',rel:'noopener'},[ico('send'),'Avisar también por WhatsApp (opcional)']));
+    var pre=el('pre',{class:'msg',text:msg});
+    box.appendChild(el('div',{class:'grp'},[el('div',{class:'lb',text:'Tu mensaje'}),pre]));
+    box.appendChild(el('button',{class:'btn sec wide',type:'button',onclick:function(){
+      function fallback(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);toast('Mensaje seleccionado, cópialo')}
+      try{navigator.clipboard.writeText(msg).then(function(){toast('Mensaje copiado')},fallback)}catch(e){fallback()}}},[ico('copy'),'Copiar mensaje']));
+    box.appendChild(el('button',{class:'btn sec wide',type:'button',onclick:function(){pdfPedido(folio)}},[ico('file'),'Descargar PDF del pedido']));
+    box.appendChild(el('div',{class:'cap',style:'margin-top:-8px',text:'El PDF lleva solo claves, descripción y cantidades, para mandarlo a la tienda si lo prefieres.'}));
+    box.appendChild(el('button',{class:'link',type:'button',text:'Listo, empezar otro pedido',onclick:function(){state.cart=[];save();updBar();closeLayer();render()}}));
+    openLayer(box);
+  }
+
+  function openCuenta(){
+    var box=el('div',{class:'sheet',role:'dialog','aria-modal':'true','aria-label':'Mi cuenta'}),u=USER,msg=el('div',{class:'err',role:'alert'}),confirmDel=false;
+    function draw(){
+      box.textContent='';
+      box.appendChild(head('Mi cuenta',u.email||''));
+      var form=HJ_UI.perfilForm(u,{submit:'Guardar mis datos',onSubmit:function(v,done){API.updateProfile(v).then(function(){Object.assign(USER,v);Object.assign(state.cust,{nombre:v.nombre,tel:v.tel,loc:v.loc,calle:[v.calle,v.colonia].filter(Boolean).join(', '),ref:v.ref,gps:v.gps||null});done('Datos guardados')},function(e){done(null,'No se guardó ('+((e&&e.code)||'error')+').')})}});
+      box.appendChild(el('div',{class:'panel'},[el('h3',{text:'Mis datos de entrega'}),form]));
+      var ol=el('div',{class:'orders'},[el('div',{class:'cap',style:'margin:8px 0',text:'Cargando tus pedidos…'})]);
+      box.appendChild(el('div',{class:'panel'},[el('h3',{text:'Mis pedidos'}),ol]));
+      API.myOrders().then(function(list){ol.textContent='';if(!list.length){ol.appendChild(el('div',{class:'cap',style:'margin:8px 0',text:'Aún no has enviado pedidos.'}));return}
+        list.forEach(function(o){var f=o.creado?new Date(o.creado).toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'}):'';
+          ol.appendChild(el('div',{class:'ord'},[el('b',{text:o.folio}),el('span',{class:'tag '+(o.estado||'nuevo'),text:o.estado==='atendido'?'Atendido':'Recibido'}),el('small',{text:f+', '+(o.items||[]).length+((o.items||[]).length===1?' producto':' productos')}),el('button',{class:'link',type:'button',text:'Repetir',onclick:function(){(o.items||[]).forEach(function(it){addItem({clave:it.clave,name:it.nombre,detail:it.detalle,qty:it.cantidad,unit:it.unidad,note:it.nota||''})});closeLayer();toast('Agregado a tu pedido')}})]))})},function(){ol.textContent='';ol.appendChild(el('div',{class:'cap',text:'No pude cargar tus pedidos.'}))});
+      box.appendChild(el('div',{class:'row',style:'display:flex;gap:10px;flex-wrap:wrap'},[el('button',{class:'btn sec',type:'button',text:'Cerrar sesión',onclick:function(){API.signOut()}})]));
+      box.appendChild(msg);
+      box.appendChild(el('button',{class:confirmDel?'btn danger':'link',type:'button',text:confirmDel?'Sí, borrar mi cuenta y mis datos':'Borrar mi cuenta',onclick:function(){if(!confirmDel){confirmDel=true;draw();return}msg.textContent='Borrando…';API.deleteAccount().then(null,function(e){msg.textContent=(e&&e.code==='auth/requires-recent-login')?'Por seguridad, cierra sesión, vuelve a entrar y repite este paso.':'No se pudo borrar ('+((e&&e.code)||'error')+').'})}}));
+    }
+    draw();openLayer(box);
+  }
+  window.HJ_APP={openCuenta:openCuenta};
+  var tmr;$('q').addEventListener('input',function(e){clearTimeout(tmr);tmr=setTimeout(function(){state.q=e.target.value;state.limit=60;render()},120)});
+  $('tabP').addEventListener('click',function(){state.tab='p';$('q').value='';state.q='';render()});
+  $('tabO').addEventListener('click',function(){state.tab='o';$('q').value='';state.q='';state.limit=60;render()});
+  $('openCart').addEventListener('click',openCart);
+  $('openCuenta').addEventListener('click',openCuenta);
+  $('barSend').addEventListener('click',openCart);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&$('layer').firstChild)closeLayer()});
+  load();render();
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+var LOCS=['Amecameca','Juchitepec','Ozumba','Atlautla','Morelos','Chalco','Ayapango','Otra (la escribo en referencias)'];
+function $(id){return document.getElementById(id)}
+function el(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){var v=attrs[k];if(v==null||v===false)continue;if(k==='text')e.textContent=v;else if(k==='class')e.className=v;else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);else if(k==='value')e.value=v;else if(k==='checked')e.checked=!!v;else e.setAttribute(k,v===true?'':v)}(kids||[]).forEach(function(c){if(c)e.appendChild(typeof c==='string'?document.createTextNode(c):c)});return e}
+function svg(path){var s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');s.setAttribute('class','i');s.setAttribute('aria-hidden','true');s.innerHTML=path;return s}
+var ICO={pin:'<path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>',check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>'};
+var ERR={'auth/email-already-in-use':'Ese correo ya tiene cuenta. Entra con tu contraseña o recupérala.','auth/invalid-email':'Revisa el correo, parece que tiene un error.','auth/weak-password':'La contraseña debe tener al menos 6 caracteres.','auth/invalid-credential':'Correo o contraseña incorrectos.','auth/wrong-password':'Correo o contraseña incorrectos.','auth/user-not-found':'No hay cuenta con ese correo. Crea una nueva.','auth/too-many-requests':'Demasiados intentos. Espera unos minutos.','auth/network-request-failed':'Sin conexión. Revisa tu internet.'};
+function msgOf(e){return ERR[e&&e.code]||('Algo salió mal ('+((e&&e.code)||'error')+'). Inténtalo otra vez.')}
+
+
+/* ---------- mapa (OpenStreetMap, sin llave) ---------- */
+var LEAF='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/',NOM='https://nominatim.openstreetmap.org/';
+var CENTRO=[19.1236,-98.7666];
+function loadLeaflet(){if(window.L)return Promise.resolve();if(loadLeaflet.p)return loadLeaflet.p;
+  loadLeaflet.p=new Promise(function(res,rej){var l=document.createElement('link');l.rel='stylesheet';l.href=LEAF+'leaflet.css';document.head.appendChild(l);var s=document.createElement('script');s.src=LEAF+'leaflet.js';s.onload=res;s.onerror=function(){loadLeaflet.p=null;rej()};document.head.appendChild(s)});return loadLeaflet.p}
+function nrm(t){return String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+function matchLoc(a){var cands=[a.city,a.town,a.village,a.municipality,a.county,a.city_district].map(nrm).join(' | ');
+  for(var i=0;i<LOCS.length-1;i++){if(cands.indexOf(nrm(LOCS[i]))>=0)return LOCS[i]}return LOCS[LOCS.length-1]}
+function mapPicker(initial,onPick){
+  var box=el('div',{class:'mapbox'}),status=el('div',{class:'gps'}),cur=initial||null,map=null,mk=null;
+  var q=el('input',{type:'search',class:'mapq',placeholder:'Busca tu calle, ej. Hidalgo, Ozumba','aria-label':'Buscar dirección'});
+  var res=el('div',{class:'mapres'});
+  var area=el('div',{class:'maparea',role:'application','aria-label':'Mapa: toca donde está tu casa'});
+  function setStatus(t,ok){status.textContent='';if(ok)status.appendChild(el('span',{class:'ok'},[svg(ICO.check),t]));else status.appendChild(el('span',{text:t}));
+    if(cur)status.appendChild(el('a',{href:'https://maps.google.com/?q='+cur.lat+','+cur.lng,target:'_blank',rel:'noopener',text:'Ver en Google Maps'}))}
+  function place(lat,lng,fly){cur={lat:Math.round(lat*1e6)/1e6,lng:Math.round(lng*1e6)/1e6};
+    if(map){if(!mk){mk=L.marker([lat,lng],{draggable:true,icon:L.divIcon({className:'pin',html:'<svg viewBox="0 0 30 40" width="30" height="40"><path d="M15 39s13-13.5 13-23.5A13 13 0 0 0 2 15.5C2 25.5 15 39 15 39z" fill="#2E7D78" stroke="#fff" stroke-width="2"/><circle cx="15" cy="15.5" r="5" fill="#fff"/></svg>',iconSize:[30,40],iconAnchor:[15,39]})}).addTo(map);mk.on('dragend',function(){var p=mk.getLatLng();place(p.lat,p.lng,false)})}else mk.setLatLng([lat,lng]);if(fly)map.setView([lat,lng],17)}
+    setStatus('Buscando la dirección…');onPick(cur,null);
+    fetch(NOM+'reverse?format=jsonv2&zoom=18&accept-language=es&lat='+cur.lat+'&lon='+cur.lng).then(function(r){return r.json()}).then(function(j){
+      var a=j&&j.address||{};onPick(cur,a);setStatus('Ubicación marcada: '+[a.road,a.suburb||a.neighbourhood,matchLoc(a)].filter(Boolean).join(', '),true)},function(){setStatus('Ubicación marcada',true)})}
+  function search(){var t=q.value.trim();if(!t)return;res.textContent='Buscando…';
+    fetch(NOM+'search?format=jsonv2&limit=5&accept-language=es&countrycodes=mx&viewbox=-99.05,19.35,-98.55,18.85&bounded=1&q='+encodeURIComponent(t)).then(function(r){return r.json()}).then(function(list){res.textContent='';
+      if(!list.length){res.appendChild(el('div',{class:'cap',style:'margin:0',text:'No encontré esa dirección. Toca el mapa directamente donde está tu casa.'}));return}
+      list.forEach(function(it){res.appendChild(el('button',{class:'mapopt',type:'button',text:it.display_name.split(',').slice(0,4).join(','),onclick:function(){res.textContent='';place(+it.lat,+it.lon,true)}}))})},function(){res.textContent='No se pudo buscar. Toca el mapa directamente.'})}
+  q.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();search()}});
+  var me=el('button',{class:'btn sec sm',type:'button',onclick:function(){if(!navigator.geolocation){setStatus('Tu teléfono no permite compartir ubicación aquí.');return}setStatus('Buscando dónde estás…');
+    navigator.geolocation.getCurrentPosition(function(p){place(p.coords.latitude,p.coords.longitude,true)},function(){setStatus('No se pudo. Revisa el permiso de ubicación o toca el mapa.')},{enableHighAccuracy:true,timeout:15000})}},[svg(ICO.pin),'Estoy en mi casa ahora']);
+  box.appendChild(el('div',{class:'maprow'},[q,el('button',{class:'btn sm',type:'button',text:'Buscar',onclick:search})]));
+  box.appendChild(res);box.appendChild(area);box.appendChild(el('div',{class:'maprow'},[me]));box.appendChild(status);
+  setStatus(cur?'Ubicación guardada':'Aún no marcas tu casa.',!!cur);
+  loadLeaflet().then(function(){
+    map=L.map(area,{zoomControl:true,attributionControl:true}).setView(cur?[cur.lat,cur.lng]:CENTRO,cur?17:13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+    if(cur){var c=cur;mk=null;place(c.lat,c.lng,false)}
+    map.on('click',function(e){place(e.latlng.lat,e.latlng.lng,false)});
+    setTimeout(function(){map.invalidateSize()},200)
+  },function(){area.textContent='No se pudo cargar el mapa. Usa "Estoy en mi casa ahora" o marca la casilla de abajo.'});
+  return box}
+
+/* ---------- formulario de datos del cliente (registro y Mi cuenta) ---------- */
+function field(id,label,node,hint){return el('div',{class:'field'},[el('label',{for:id,text:label}),node,hint?el('div',{class:'cap',style:'margin-top:0',text:hint}):null])}
+function perfilForm(v,opt){
+  v=v||{};var gps=v.gps||null;
+  var nombre=el('input',{id:'pf_n',type:'text',autocomplete:'name',value:v.nombre||'',placeholder:'Nombre y apellido o nombre del negocio'});
+  var tel=el('input',{id:'pf_t',type:'tel',inputmode:'tel',autocomplete:'tel',value:v.tel||'',placeholder:'10 dígitos'});
+  var loc=el('select',{id:'pf_l'},[el('option',{value:'',text:'Elige tu localidad'})].concat(LOCS.map(function(l){return el('option',{value:l,text:l})})));loc.value=v.loc||'';
+  var calle=el('input',{id:'pf_c',type:'text',autocomplete:'address-line1',value:v.calle||'',placeholder:'Calle y número'});
+  var col=el('input',{id:'pf_o',type:'text',autocomplete:'address-line2',value:v.colonia||'',placeholder:'Colonia o barrio'});
+  var ref=el('input',{id:'pf_r',type:'text',value:v.ref||'',placeholder:'Ej. portón negro, frente a la escuela'});
+  var mapa=mapPicker(gps,function(g,addr){gps=g;if(err)err.textContent="";
+    if(addr){var L2=matchLoc(addr);if(L2)loc.value=L2;
+      var road=addr.road||addr.pedestrian||addr.residential||addr.footway||'';
+      if(road&&(!calle.value||calle.dataset.auto==='1')){calle.value=road+(addr.house_number?' '+addr.house_number:'');calle.dataset.auto='1'}
+      var c2=addr.suburb||addr.neighbourhood||addr.quarter||addr.hamlet||'';
+      if(c2&&(!col.value||col.dataset.auto==='1')){col.value=c2;col.dataset.auto='1'}}});
+  var noMapa=el('input',{type:'checkbox',id:'pf_nm',checked:!!v.sinMapa});
+  [calle,col].forEach(function(i){i.addEventListener('input',function(){i.dataset.auto=''})});
+  var extra=opt.extra||[];
+  var err=el('div',{class:'err',role:'alert'});
+  var btn=el('button',{class:'btn wide',type:'submit',text:opt.submit});
+  var f=el('form',{class:'panel',novalidate:true},extra.concat([
+    field('pf_n','Nombre',nombre),field('pf_t','Teléfono',tel,'Te marcamos o escribimos aquí para confirmar tu pedido.'),
+    el('div',{class:'two'},[field('pf_l','Localidad',loc),field('pf_c','Calle y número',calle)]),
+    el('div',{class:'two'},[field('pf_o','Colonia',col),field('pf_r','Referencias',ref)]),
+    err,btn]));
+  f.insertBefore(el('div',{class:'field'},[el('span',{class:'lb2',text:'Tu casa o negocio en el mapa'}),el('div',{class:'cap',style:'margin:0',text:'Busca tu calle o toca el mapa donde está tu casa. Con eso llenamos localidad, calle y colonia; revisa el número y agrega referencias.'}),mapa,el('label',{class:'check'},[noMapa,'No encuentro mi casa en el mapa (la explico en referencias)'])]),f.querySelector('#pf_l').closest('.two'));
+  f.addEventListener('submit',function(e){e.preventDefault();err.textContent='';
+    var val={nombre:nombre.value.trim(),tel:tel.value.replace(/\D/g,''),loc:loc.value,calle:calle.value.trim(),colonia:col.value.trim(),ref:ref.value.trim(),gps:gps};
+    if(!val.nombre){err.textContent='Falta tu nombre.';nombre.focus();return}
+    if(!/^\d{10}$/.test(val.tel)){err.textContent='El teléfono debe tener 10 dígitos.';tel.focus();return}
+    if(!gps&&!noMapa.checked){err.textContent='Marca tu casa en el mapa, o si no la encuentras marca la casilla y explícala en referencias.';return}
+    val.sinMapa=!gps;
+    if(!val.loc||!val.calle){err.textContent='Elige tu localidad y escribe calle y número para que no haya errores en la entrega.';return}
+    if(noMapa.checked&&!gps&&val.ref.length<10){err.textContent='Sin mapa, escribe referencias claras para que el chofer encuentre tu casa.';return}
+    var pre=opt.validate&&opt.validate();if(pre){err.textContent=pre;return}
+    btn.disabled=true;var t=btn.textContent;btn.textContent='Guardando…';
+    opt.onSubmit(val,function(ok,bad){btn.disabled=false;btn.textContent=t;if(bad)err.textContent=bad;else if(ok&&window.HJ_toast)window.HJ_toast(ok)})});
+  return f}
+window.HJ_UI={perfilForm:perfilForm};
+window.HJ_toast=function(t){var n=$('toast');if(!n)return;n.textContent=t;n.hidden=false;clearTimeout(window.HJ_toast.t);window.HJ_toast.t=setTimeout(function(){n.hidden=true},2400)};
+
+/* ---------- pantallas de entrada ---------- */
+var gate=$('gate'),app=$('app');
+function topBar(){var mark=document.querySelector('.mast .mark');var t=el('div',{class:'gate-top'},[el('div',{class:'wrap'},[mark?mark.cloneNode(true):el('b',{text:'HERRAJUQ'}),el('div',{class:'mast-sub',text:'Herrajes y Aluminio Juquila'})])]);return t}
+function screen(kids){app.hidden=true;gate.hidden=false;gate.textContent='';gate.appendChild(topBar());gate.appendChild(el('div',{class:'gate-body'},kids));window.scrollTo(0,0)}
+function loading(t){screen([el('div',{class:'row'},[el('div',{class:'spin','aria-hidden':'true'}),el('p',{text:t})])])}
+function login(pref){
+  var email=el('input',{id:'lg_e',type:'email',autocomplete:'email',value:pref||'',placeholder:'tucorreo@ejemplo.com'});
+  var pass=el('input',{id:'lg_p',type:'password',autocomplete:'current-password',placeholder:'Tu contraseña'});
+  var err=el('div',{class:'err',role:'alert'}),btn=el('button',{class:'btn wide',type:'submit',text:'Entrar'});
+  var f=el('form',{class:'panel',novalidate:true},[field('lg_e','Correo',email),field('lg_p','Contraseña',pass),err,btn]);
+  f.addEventListener('submit',function(e){e.preventDefault();err.textContent='';btn.disabled=true;
+    auth.signInWithEmailAndPassword(email.value.trim(),pass.value).catch(function(x){btn.disabled=false;err.textContent=msgOf(x)})});
+  screen([el('h1',{text:'Entra para hacer tu pedido'}),el('p',{text:'Ve el catálogo con fotos y fichas, arma tu pedido y mándalo a la tienda. Sin precios: te los confirmamos al recibirlo.'}),f,
+    el('div',{class:'row'},[el('span',{class:'cap',style:'margin:0',text:'¿Primera vez?'}),el('button',{class:'btn sec',type:'button',text:'Crear mi cuenta',onclick:function(){registro(email.value)}})]),
+    el('button',{class:'link',type:'button',style:'align-self:flex-start',text:'Olvidé mi contraseña',onclick:function(){var m=email.value.trim();if(!m){err.textContent='Escribe tu correo arriba y vuelve a tocar aquí.';return}auth.sendPasswordResetEmail(m).then(function(){err.style.color='var(--glass)';err.textContent='Te mandamos un correo para cambiar tu contraseña.'},function(x){err.textContent=msgOf(x)})}})])}
+function registro(pref){
+  var email=el('input',{id:'rg_e',type:'email',autocomplete:'email',value:pref||'',placeholder:'tucorreo@ejemplo.com'});
+  var pass=el('input',{id:'rg_p',type:'password',autocomplete:'new-password',placeholder:'Mínimo 6 caracteres'});
+  var ok=el('input',{type:'checkbox',id:'rg_ok'});
+  var form=perfilForm({},{submit:'Crear mi cuenta',extra:[el('h3',{text:'Tu cuenta'}),field('rg_e','Correo',email),field('rg_p','Contraseña',pass),el('h3',{text:'Tus datos de entrega'})],
+    validate:function(){if(!/\S+@\S+\.\S+/.test(email.value))return 'Escribe un correo válido.';if(pass.value.length<6)return 'La contraseña debe tener al menos 6 caracteres.';if(!ok.checked)return 'Acepta el uso de tus datos para poder registrarte.';return ''},
+    onSubmit:function(v,done){pendingProfile=v;
+      auth.createUserWithEmailAndPassword(email.value.trim(),pass.value).then(function(c){return saveNewProfile(c.user,v)}).catch(function(x){pendingProfile=null;done(null,msgOf(x))})}});
+  form.insertBefore(el('label',{class:'check'},[ok,'Acepto que Herrajuq guarde mi nombre, teléfono y dirección solo para atender y entregar mis pedidos. Puedo borrar mi cuenta cuando quiera desde Mi cuenta.']),form.querySelector('.err'));
+  screen([el('h1',{text:'Crea tu cuenta'}),el('p',{text:'Guardamos tus datos de entrega desde ahora para que tus pedidos lleguen sin errores. Los puedes cambiar después en Mi cuenta.'}),form,
+    el('button',{class:'link',type:'button',style:'align-self:flex-start',text:'Ya tengo cuenta, quiero entrar',onclick:function(){login(email.value)}})])}
+function completar(u){
+  var form=perfilForm({},{submit:'Guardar y entrar',onSubmit:function(v,done){saveNewProfile(u,v).catch(function(x){done(null,msgOf(x))})}});
+  screen([el('h1',{text:'Completa tus datos'}),el('p',{text:'Antes de entrar, dinos a dónde te entregamos.'}),form,el('button',{class:'link',type:'button',text:'Salir',onclick:function(){auth.signOut()}})])}
+function cerrado(estado){
+  screen([el('h1',{text:estado==='eliminado'?'Esta cuenta ya no está activa':'Tu cuenta está pausada'}),el('p',{text:'Para hacer pedidos comunícate con la tienda por WhatsApp al 55 4800 9223.'}),el('button',{class:'btn sec',type:'button',text:'Salir',onclick:function(){auth.signOut()}})])}
+function errorPantalla(t){screen([el('h1',{text:'No pudimos abrir el catálogo'}),el('p',{text:t}),el('button',{class:'btn',type:'button',text:'Reintentar',onclick:function(){location.reload()}})])}
+
+/* ---------- Firebase ---------- */
+if(!window.firebase||!window.HJ_CONFIG||!window.HJ_CONFIG.apiKey||/PEGA_AQUI/.test(window.HJ_CONFIG.apiKey)){errorPantalla('Falta configurar Firebase: pega tu firebaseConfig en el archivo config.js.');return}
+firebase.initializeApp(window.HJ_CONFIG);
+var auth=firebase.auth(),db=firebase.firestore(),FV=firebase.firestore.FieldValue;
+var pendingProfile=null,started=false;
+function saveNewProfile(u,v){
+  var d=Object.assign({},v,{email:u.email,estado:'activo',creado:FV.serverTimestamp(),actualizado:FV.serverTimestamp()});
+  return db.collection('clientes').doc(u.uid).set(d).then(function(){pendingProfile=null;return enter(u)})}
+
+/* catálogo en caché local (IndexedDB) por versión */
+function idb(){return new Promise(function(res){try{var r=indexedDB.open('herrajuq',1);r.onupgradeneeded=function(){r.result.createObjectStore('kv')};r.onsuccess=function(){res(r.result)};r.onerror=function(){res(null)}}catch(e){res(null)}})}
+function idbGet(k){return idb().then(function(d){if(!d)return null;return new Promise(function(res){try{var q=d.transaction('kv').objectStore('kv').get(k);q.onsuccess=function(){res(q.result||null)};q.onerror=function(){res(null)}}catch(e){res(null)}})})}
+function idbSet(k,v){return idb().then(function(d){if(!d)return;return new Promise(function(res){try{var t=d.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=res;t.onerror=res}catch(e){res()}})})}
+function loadCatalog(){
+  return db.collection('catalogo').doc('meta').get().then(function(m){
+    if(!m.exists)throw {code:'sin-catalogo'};var meta=m.data();
+    return idbGet('cat').then(function(c){
+      if(c&&c.version===meta.version)return c;
+      loading('Descargando el catálogo, solo la primera vez…');
+      return Promise.all(meta.partes.map(function(id){return db.collection('catalogo').doc(id).get()}).concat(meta.fotos.map(function(id){return db.collection('fotos').doc(id).get()}))).then(function(docs){
+        var data={perfiles:[],otros:[]},fotos={},det={};
+        docs.forEach(function(d){var j=JSON.parse(d.data().json),id=d.id;
+          if(id==='perfiles')data.perfiles=j;else if(/^otros/.test(id))data.otros=data.otros.concat(j);else if(/^fichas/.test(id))Object.assign(det,j);else Object.assign(fotos,j)});
+        var c2={version:meta.version,data:data,fotos:fotos,det:det,whatsapp:meta.whatsapp};idbSet('cat',c2);return c2})})})}
+function enter(u){
+  if(started)return Promise.resolve();
+  loading('Abriendo tu cuenta…');
+  return db.collection('clientes').doc(u.uid).get().then(function(s){
+    if(!s.exists){if(pendingProfile)return;completar(u);return}
+    var p=s.data();if(p.estado!=='activo'){cerrado(p.estado);return}
+    loading('Cargando el catálogo…');
+    return loadCatalog().then(function(c){
+      started=true;gate.hidden=true;gate.textContent='';app.hidden=false;
+      var USER=Object.assign({uid:u.uid,email:u.email},p);
+      window.HJ_START(c.data,c.fotos,c.det,USER,{
+        whatsapp:c.whatsapp,
+        saveOrder:function(o){o.uid=u.uid;o.email=u.email;o.estado='nuevo';o.creado=FV.serverTimestamp();return db.collection('pedidos').doc(o.folio).set(o)},
+        updateProfile:function(v){return db.collection('clientes').doc(u.uid).update(Object.assign({},v,{actualizado:FV.serverTimestamp()}))},
+        myOrders:function(){return db.collection('pedidos').where('uid','==',u.uid).get().then(function(q){return q.docs.map(function(d){var o=d.data();o.creado=o.creado&&o.creado.toMillis?o.creado.toMillis():0;return o}).sort(function(a,b){return b.creado-a.creado}).slice(0,30)})},
+        signOut:function(){auth.signOut().then(function(){location.reload()})},
+        deleteAccount:function(){return db.collection('clientes').doc(u.uid).update({estado:'eliminado',tel:'',calle:'',colonia:'',ref:'',gps:null,actualizado:FV.serverTimestamp()}).then(function(){return u.delete()}).then(function(){location.reload()})}
+      })})}).catch(function(e){
+      if(e&&e.code==='permission-denied'){cerrado('pausado');return}
+      if(e&&e.code==='sin-catalogo'){errorPantalla('El catálogo todavía no está cargado en la base de datos.');return}
+      errorPantalla('Revisa tu conexión a internet ('+((e&&e.code)||'error')+').')})}
+auth.onAuthStateChanged(function(u){if(!u){if(!started)login();return}if(pendingProfile)return;enter(u)});
+loading('Cargando…');
+})();
+
+</script>
+</body>
+</html>
